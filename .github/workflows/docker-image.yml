@@ -36,7 +36,7 @@ jobs:
       - name: Push Docker image
         if: success()
         run: |
-          docker push ghcr.io/bmassin/my_joke_app:latest
+          docker push ghcr.io/mklimovich45/ue19-lab-05:latest
 
       # Push the Docker image to GitHub Container Registry
       - name: Push Docker image to GitHub Packages
