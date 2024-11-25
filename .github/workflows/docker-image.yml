@@ -1,4 +1,4 @@
-name: Build and Publish Docker Image
+name: Build, Scan, and Publish Docker Image
 
 on:
   push:
@@ -6,11 +6,11 @@ on:
       - main
 
 jobs:
-  build-and-publish:
+  build-scan-publish:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
+      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -27,7 +27,15 @@ jobs:
         run: |
           docker build -t ghcr.io/${{ github.repository_owner }}/ue19-lab-05:latest .
 
-      # Push the Docker image
+      # Scan the Docker image for vulnerabilities
+      - name: Scan Docker image with Trivy
+        uses: aquasecurity/trivy-action@v0.11.0
+        with:
+          image-ref: ghcr.io/${{ github.repository_owner }}/ue19-lab-05:latest
+          severity: HIGH,CRITICAL
+
+      # Push the Docker image to GitHub Container Registry
       - name: Push Docker image to GitHub Packages
+        if: success()
         run: |
           docker push ghcr.io/${{ github.repository_owner }}/ue19-lab-05:latest
