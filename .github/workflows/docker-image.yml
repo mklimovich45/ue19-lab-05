@@ -31,7 +31,7 @@ jobs:
       - name: Scan image with Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ghcr.io/mklimovich45/blagues:latest
+          image-ref: ghcr.io/mklimovich45/ue19-lab-05:latest
 
       - name: Push Docker image
         if: success()
